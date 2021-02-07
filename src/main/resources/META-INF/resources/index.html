@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+
+    <title>Camera Status</title>
+  </head>
+  <body onload="connect()">
+    <h1 style="text-align: center;">Safe to enter?</h1>
+    <div id="camerastate" style="text-align: center;"></div>
+    <script type="text/javascript">
+      var connected = false;
+      var socket;
+      
+      var connect = function() {
+          if (! connected) {
+              socket = new WebSocket("ws://" + location.host + "/camerastate");
+              socket.onopen = function() {
+                  connected = true;
+              };
+              socket.onmessage =function(m) {
+                  
+                  var newCameraState = document.createElement("div");
+                  newCameraState.setAttribute("id", "camerastate");
+                  newCameraState.setAttribute("style", "text-align: center;");
+                  var newCameraStateIcon = document.createElement("i");
+                  newCameraStateIcon.setAttribute("style", "font-size: 58vw;  display: inline-block; margin-left: auto;  margin-right: auto;");
+                  newCameraStateIcon.setAttribute("class", m.data);
+                  newCameraState.appendChild(newCameraStateIcon);
+
+                  var cameraState = document.getElementById("camerastate");
+                  cameraState.parentNode.replaceChild(newCameraState, cameraState);
+              };
+          }
+      };
+    </script>
+  </body>
+</html>
