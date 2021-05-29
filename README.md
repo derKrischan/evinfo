@@ -37,13 +37,15 @@ The application can be packaged using:
 ```
 It produces the `evinfo-1.0.0-SNAPSHOT-runner.jar` file in the `/target` directory.
 Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/lib` directory.
+You may start this application calling `java -jar target/quarkus-app/quarkus-run.jar`
 
-If you want to build an _über-jar_, execute the following command:
+If you want to build an _über-jar_, execute
 ```shell script
 ./mvnw package -Dquarkus.package.type=uber-jar
 ```
+... or add the property to application.properties.
 
-The application is now runnable using `java -jar target/evinfo-1.0.0-SNAPSHOT-runner.jar`.
+The uber-jar application is runnable using `java -jar target/evinfo-1.0.0-SNAPSHOT-runner.jar`.
 
 ## Creating a native executable
 
@@ -62,7 +64,7 @@ If you want to learn more about building native executables, please consult http
 
 ### Native file optimization
 
-The created native binary may be shrinked to approx 25% of its size using [upx](https://upx.github.io/) in a post processing step:
+The created native binary may be shrinked to approx 30% of its size using [upx](https://upx.github.io/) in a post processing step:
 
 ```shell script
 upx --best -k target/evinfo-1.0.0-SNAPSHOT-runner
