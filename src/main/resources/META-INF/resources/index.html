@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var connected = false;
       var socket;
-      
+
       var connect = function() {
           if (! connected) {
               socket = new WebSocket("ws://" + location.host + "/camerastate");
@@ -23,7 +23,7 @@
                   connected = true;
               };
               socket.onmessage =function(m) {
-                  
+
                   var newCameraState = document.createElement("div");
                   newCameraState.setAttribute("id", "camerastate");
                   newCameraState.setAttribute("style", "text-align: center;");
