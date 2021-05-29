@@ -36,6 +36,6 @@ nb-configuration.xml
 *.rej
 
 
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar 
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar

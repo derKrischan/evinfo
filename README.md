@@ -8,7 +8,9 @@ EVInfo
 - [Running the application in dev mode](#running-the-application-in-dev-mode)
 - [Packaging and running the application](#packaging-and-running-the-application)
 - [Creating a native executable](#creating-a-native-executable)
+  - [Native file optimization](#native-file-optimization)
 - [The client side](#the-client-side)
+- [Developer information](#developer-information)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -45,26 +47,39 @@ The application is now runnable using `java -jar target/evinfo-1.0.0-SNAPSHOT-ru
 
 ## Creating a native executable
 
-You can create a native executable using: 
+The native executable is created using the GraalVM. You may install it using [SDKMAN](https://sdkman.io/).
+
+You can create a native executable using:
 ```shell script
 ./mvnw -Pnative package
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
+Building inside a container makes no sense for this project because it is speciazed for macos (log mechanism) and there is no container build available for macos.
 
-You can then execute your native executable with: `./target/evinfo-1.0.0-SNAPSHOT-runner`
+The binary may be executed calling: `./target/evinfo-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.html.
 
+### Native file optimization
+
+The created native binary may be shrinked to approx 25% of its size using [upx](https://upx.github.io/) in a post processing step:
+
+```shell script
+upx --best -k target/evinfo-1.0.0-SNAPSHOT-runner
+```
+
+The option `-k` or `--keep` keeps the original file.
+
 ## The client side
 
-I use an old Kobo Glo device as client mounted via magnets at my office door frame as a client. 
+I use an old Kobo Glo device as client mounted via magnets at my office door frame as a client.
 The Kobo got a Nickel Menu (https://pgaskin.net/NickelMenu) extension and a simple browser based menu entry for the camera status (created file `.adds/nm/camera_status`):
 ```
 menu_item:main:Camera Status:nickel_browser:modal:http://my.ip.add:36983
 ```
 
 It is still possible to use the Kobo reader for it's main purpose but it also a dynamic dislplay panel for the camera status in my office.
+
+## Developer information
+
+This project uses (just out of curiosity) the [pre-commit](https://pre-commit.com/) framework and tries to follow the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) specification using [commitizen](https://commitizen.github.io/cz-cli/).
