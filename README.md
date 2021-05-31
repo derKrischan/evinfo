@@ -9,6 +9,7 @@ EVInfo
 - [Packaging and running the application](#packaging-and-running-the-application)
 - [Creating a native executable](#creating-a-native-executable)
   - [Native file optimization](#native-file-optimization)
+  - [macOS app creation](#macos-app-creation)
 - [The client side](#the-client-side)
 - [Developer information](#developer-information)
 
@@ -71,6 +72,14 @@ upx --best -k target/evinfo-1.0.0-SNAPSHOT-runner
 ```
 
 The option `-k` or `--keep` keeps the original file.
+
+### macOS app creation
+
+You can transform the binary into a macOS app using tools like [Appify](https://github.com/machinebox/appify). Install it as instructed - the executable is usually located in `$GOPATH` after `go get` execution or in `~/go/bin` if `GOPATH` is not set - and execute it (e.g. with the default icon provided here):
+
+```shell script
+$GOPATH/appify -name "Evinfo" -icon evinfo_icon.png target/evinfo-1.0.0-SNAPSHOT-runner
+```
 
 ## The client side
 
