@@ -1,4 +1,4 @@
-EVInfo
+Evinfo
 ======
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -10,6 +10,7 @@ EVInfo
 - [Creating a native executable](#creating-a-native-executable)
   - [Native file optimization](#native-file-optimization)
   - [macOS app creation](#macos-app-creation)
+  - [macOS autostart service](#macos-autostart-service)
 - [The client side](#the-client-side)
 - [Developer information](#developer-information)
 
@@ -79,6 +80,59 @@ You can transform the binary into a macOS app using tools like [Appify](https://
 
 ```shell script
 $GOPATH/appify -name "Evinfo" -icon evinfo_icon.png target/evinfo-1.0.0-SNAPSHOT-runner
+```
+
+### macOS autostart service
+
+In order to autostart the application in background as a service on macOS copy the app to your Application folder. Start the app once manually to allow incoming network connections for Evinfo.
+One possibility is to right click the app icon in dock and choose "Options -> Open at Login". You can also create a plist file:
+
+```shell script
+vim ~/Library/LaunchAgents/org.capreolus.evinfo.plist
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>org.capreolus.Evinfo</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/Applications/Evinfo.app/Contents/MacOS/Evinfo</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardErrorPath</key>
+        <string>/dev/null</string>
+        <key>StandardOutPath</key>
+        <string>/dev/null</string>
+</dict>
+</plist>
+```
+
+If you did not create a macOS app from the binary and just copied it to your Applications folder, the plist-file will look more like this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>org.capreolus.evinfo</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/Applications/evinfo</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>StandardErrorPath</key>
+        <string>/dev/null</string>
+        <key>StandardOutPath</key>
+        <string>/dev/null</string>
+</dict>
+</plist>
 ```
 
 ## The client side
